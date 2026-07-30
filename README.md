@@ -7,7 +7,7 @@
 **Free, production-grade AI skills & explainers — battle-tested on real software, not toy demos.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-2-blue.svg)](#skills)
+[![Skills](https://img.shields.io/badge/skills-3-blue.svg)](#skills)
 [![Format](https://img.shields.io/badge/format-Anthropic%20Skill-8A63D2.svg)](https://github.com/anthropics/skills)
 
 </div>
@@ -35,6 +35,7 @@ Every skill here follows two non-negotiable principles:
 | Skill | What it does |
 |---|---|
 | [**system-map-visualization**](system-map-visualization/) | Deeply analyzes any codebase, then builds a **live, animated 3D WebGL "system map"** of the whole ecosystem **+ a static PlantUML architecture diagram**, both from one code-verified data file. Real-time telemetry, clickable nodes, guided end-to-end journeys. No backend of its own — one self-contained static HTML file. |
+| [**niche-pitch-engine**](niche-pitch-engine/) | Runs a **verified B2B outreach pipeline** for any niche: industry-mechanics research, registry/signal-driven target shortlist, per-company dossiers, two-step pitch emails in the target language, **adversarial claim-by-claim QA**, and a persisted approval queue behind a hard send gate (opt-outs, dedup, SQL-enforced caps, mandatory legal footer, human approves every send). Truthful-only by construction — no invented facts, no fake social proof. |
 | [**agentic-chat-interface**](agentic-chat-interface/) | Builds a production-grade **streaming agent chat front-end**: SSE-streamed conversation, live tool-call timeline, collapsible "thinking" panel, stop/retry/abort, graceful failure. Framework-light (React + `fetch` + Streams API + Tailwind) — no chat library, no SSE library. Decoupled from any backend by one 10-event SSE contract. |
 
 _More coming. Watch / star the repo._
