@@ -7,7 +7,7 @@
 **Free, production-grade AI skills & explainers — battle-tested on real software, not toy demos.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-4-blue.svg)](#skills)
+[![Skills](https://img.shields.io/badge/skills-5-blue.svg)](#skills)
 [![Format](https://img.shields.io/badge/format-Anthropic%20Skill-8A63D2.svg)](https://github.com/anthropics/skills)
 
 </div>
@@ -38,6 +38,7 @@ Every skill here follows two non-negotiable principles:
 | [**niche-pitch-engine**](niche-pitch-engine/) | Runs a **verified B2B outreach pipeline** for any niche: industry-mechanics research, registry/signal-driven target shortlist, per-company dossiers, two-step pitch emails in the target language, **adversarial claim-by-claim QA**, and a persisted approval queue behind a hard send gate (opt-outs, dedup, SQL-enforced caps, mandatory legal footer, human approves every send). Truthful-only by construction — no invented facts, no fake social proof. |
 | [**agentic-chat-interface**](agentic-chat-interface/) | Builds a production-grade **streaming agent chat front-end**: SSE-streamed conversation, live tool-call timeline, collapsible "thinking" panel, stop/retry/abort, graceful failure. Framework-light (React + `fetch` + Streams API + Tailwind) — no chat library, no SSE library. Decoupled from any backend by one 10-event SSE contract. |
 | [**agent-ops-board**](agent-ops-board/) | Autonomous company engine: authority, control plane, verified outcomes, board as record. Runs a company or multi-sided ecosystem (customers, suppliers, partners, resellers) with **one top authority (owner or approver groups), one coordinator agent and bounded executors**: a decision-rights matrix and earned-autonomy ladder, kill switch, per-loop pauses and outcome circuit breakers, an idempotent side-effect state machine that never blindly retries, reviewed bulk batches, verification at the source, owner briefs, and a paced board helper (`export` / `health` / `post` with write-then-read-back). |
+| [**brotli-decoder-cve-fix**](brotli-decoder-cve-fix/) | Takes a server from "a 9.2 critical Brotli bug hit Node.js" (**CVE-2026-111497**, a.k.a. Node2Shell / HTTP2Shell) to a **verified answer and a closed exposure**: checks the advisory against primary sources, inventories every runtime that bundles Brotli (Node.js, Bun, Python, curl, proxies), proves with a safe probe whether attacker-controlled Brotli reaches a decoder (Express 5 / body-parser inflates `br` request bodies before auth), blocks it at the nginx edge in minutes, then patches runtimes with zero-downtime restarts and verifies the **running** processes. Includes a read-only `check.sh` and drop-in nginx guard files. |
 
 _More coming. Watch / star the repo._
 
