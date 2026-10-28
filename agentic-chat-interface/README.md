@@ -1,3 +1,5 @@
+<img src="assets/og.png" alt="Agentic Chat UI — A streaming agent chat front-end: SSE, live tool-call timeline, thinking panel, stop and retry. No chat library." width="820" />
+
 # agentic-chat-interface
 
 A production-grade **streaming agent chat front-end** pattern — SSE-streamed conversation,

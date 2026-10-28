@@ -40,5 +40,6 @@ description: >                   # the trigger — what it does + when to use it
 - [ ] No mock data — the skill verifies against real code
 - [ ] An agent can execute it end-to-end without you in the loop
 - [ ] Added a row to the Skills table in the root `README.md`
+- [ ] Added a row to `assets/og/skills.json` and ran `node assets/og/build.mjs` (preview card + share page)
 
 Open an issue first for anything non-trivial. MIT-license your contribution.

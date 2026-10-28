@@ -1,3 +1,5 @@
+<img src="assets/og.png" alt="Niche Pitch Engine — Research a niche, build dossiers and two-step pitches, adversarial QA on every claim, and a human-gated send." width="820" />
+
 # niche-pitch-engine
 
 A **verified B2B outreach pipeline** in one skill: give it your offer and a niche, and the
