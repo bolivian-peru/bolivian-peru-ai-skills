@@ -1,3 +1,5 @@
+<img src="assets/og.png" alt="System Map — A live 3D WebGL map plus a PlantUML diagram of any codebase, from one code-verified data file." width="820" />
+
 # system-map-visualization
 
 Build a **live, animated 3D WebGL system map** + a **static PlantUML architecture diagram**

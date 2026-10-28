@@ -1,3 +1,5 @@
+<img src="assets/og.png" alt="Agent Ops Board — Run a company with AI agents: one authority, one coordinator, bounded executors, kill switch, idempotent side effects and one board as the record." width="820" />
+
 # agent-ops-board
 
 An **autonomous company engine** for running a company, enterprise unit or
