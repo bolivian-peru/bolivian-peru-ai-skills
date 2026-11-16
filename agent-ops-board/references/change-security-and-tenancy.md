@@ -140,7 +140,7 @@ blast radius, not by hoping to detect it.
 Run with **no external writes** (dry-run providers or a sandbox tenant) before any
 executor reaches L1, and after any change to authority, control plane or sender.
 Tests 12, 13 and 16 need the control plane, so they run at the Phase 1 exit; the
-rest run in Phase 0.
+rest (1-11, 14, 15, 17-19) run in Phase 0.
 
 | # | Scenario | Pass when the engine |
 |---|---|---|
@@ -160,5 +160,8 @@ rest run in Phase 0.
 | 14 | Suppression set resolves empty on a non-empty base | batch refuses to start |
 | 15 | Board post returns a transport error | exit uncertain; re-run reuses the same client ID and finds or posts once |
 | 16 | Kill switch set during a cycle | engine observes and reports only |
+| 17 | Draft quotes a price without its volume condition, or a fact not in the fact source | held with `fact-not-allowed`; no send |
+| 18 | A card with an open promise is moved to done | `health` reports `done_with_open_promise` as a RED item |
+| 19 | A second operator claims a lane that is still live | the claim fails; the second operator does not touch the stream |
 
 Record each run's result on the setup card with the date and the build tested.

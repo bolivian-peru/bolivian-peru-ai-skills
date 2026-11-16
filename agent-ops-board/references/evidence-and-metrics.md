@@ -111,6 +111,12 @@ uses (`control-plane-and-observability.md` §3).
   test); `SUM(price)` alone overstates it.
 - Every number carries `period`, `source`, `completeness` and a `note` on what it
   does not prove.
+- **A number carries the conditions it was measured under** (load, concurrency,
+  sample, warm or cold, period). A cost per request read at saturation and one
+  read below it differed by a third; a gate mixing the two would have failed a
+  good build. Compare and gate only on readings taken under the same conditions.
+- When a measurement turns out to be mislabelled, **correct every earlier report
+  that used it**, on the same card, with the corrected label and source.
 
 ## 6. Silent no-op audit
 

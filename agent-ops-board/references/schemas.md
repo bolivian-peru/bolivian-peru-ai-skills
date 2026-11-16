@@ -192,7 +192,8 @@ A failed read is `"value": null, "completeness": "unknown"`.
 { "at": "", "releaseMarkers": [{ "surface": "", "host": "", "marker": "", "readAt": "" }],
   "cursors": {}, "completedActionKeys": [], "pendingExternal": [], "uncertain": [],
   "writers": {}, "liveVsPrepared": [], "pauses": [], "deferrals": [],
-  "openIncidents": [], "ownerDecisionsPending": [] }
+  "openIncidents": [], "ownerDecisionsPending": [],
+  "streamIndexRef": "", "lanes": [], "openPromises": [], "notVerifiedEndToEnd": [] }
 ```
 
 ## K. Minimal board contract (for a company with no board)
@@ -216,7 +217,9 @@ Message append semantics:
 - commit possible but response unknown → `503 WRITE_UNCERTAIN`; client keeps the
   same ID and body and reconciles;
 - a per-card message cap is enforced in the same atomic write; history is never
-  sliced.
+  sliced. A full thread is **rolled over**: a successor card that links back to
+  the old one (and the old one forward) takes the next messages, and open
+  promises are restated on it.
 
 ## L. Executor capability row
 
@@ -246,3 +249,66 @@ every sender, never agent memory.
 ```
 
 `originalMessageId` is unique per tenant and channel, so a message is handled once.
+
+## N. Promise record
+
+One per commitment made to a person (`facts-promises-and-cases.md` §2). It lives
+where cards live (a card field, or `Promise:` lines on the card thread), not in a
+second store.
+
+```json
+{ "promiseId": "p-91ab-setup-guide", "cardId": "card id", "to": "canonical account id",
+  "what": "send setup steps tested against their stack", "owner": "coordinator",
+  "due": "2026-01-03T12:00:00Z", "madeIn": "message id where it was promised",
+  "state": "open | kept | released", "proof": null, "releasedBy": null }
+```
+
+Thread form, one line per state change; the newest line for an id wins:
+
+```
+Promise: p-91ab-setup-guide | open | due 2026-01-03 | to account 91ab | owner coordinator | setup steps
+Promise: p-91ab-setup-guide | kept | proof sent archive message id, delivered 2026-01-02
+```
+
+A state other than `kept` or `released` counts as open.
+
+## O. Lane claim
+
+One per stream being worked (`lanes-releases-and-judgment.md` §2), written with a
+conditional write in the shared place the stream index names.
+
+```json
+{ "stream": "activation", "operator": "session or runner id", "runId": "uuid",
+  "claimedAt": "2026-01-01T09:00:00Z", "expiresAt": "2026-01-01T11:00:00Z",
+  "scope": "threads awaiting us in this stream", "releasedAt": null }
+```
+
+A claim whose `expiresAt` has passed is free. A second claim on a live lane fails.
+
+## P. Fact row
+
+One row of the generated fact sheet (`facts-promises-and-cases.md` §1). Only the
+generator writes it.
+
+```json
+{ "fact": "unit_price", "value": 2.5, "unit": "currency per unit",
+  "conditions": { "product": "standard", "region": "any", "minVolume": 100, "maxVolume": null },
+  "source": "pricing table in the billing service", "generatedAt": "2026-01-01T06:00:00Z",
+  "expiresAt": null, "quotable": true }
+```
+
+`expiresAt` is set for anything that goes stale (stock, availability, status); past
+it the sender reads the value live. A fact with `quotable: false` is internal.
+
+## Q. Decision log entry
+
+One per decision made under policy or analysis (`lanes-releases-and-judgment.md`
+§7).
+
+```json
+{ "id": "dec-2026-01-01-04", "at": "2026-01-01T10:00:00Z", "by": "coordinator",
+  "decision": "offer a paid test instead of a discount", "reversibility": "easy | costly | irreversible",
+  "exposure": "internal | one_party | many | public | money", "authorityRef": "policy:2025-12-20-01",
+  "confidence": 0.7, "expected": "test paid within 7 days", "reviewAt": "2026-01-08",
+  "outcome": null, "outcomeAt": null }
+```

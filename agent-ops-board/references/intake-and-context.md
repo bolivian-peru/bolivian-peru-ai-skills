@@ -66,7 +66,9 @@ packet:
 | evidence refs | each field's source and observed-at |
 
 Refresh the packet immediately before sending. If the conversation revision moved,
-the draft is stale.
+the draft is stale. Before any reply, the packet is built as the full **case pack**
+(money, usage, every channel both ways, open promises, attachments):
+`facts-promises-and-cases.md` §4.
 
 ## 5. Support obligation
 
@@ -107,8 +109,9 @@ the draft is stale.
 - No invented urgency, scarcity, familiarity, results or personal experience.
 - Identity claims accurate: an agent sending as a team says so where required and
   never claims to be a named human it is not.
-- Customer-facing facts (prices, coverage, status, "fixed") come from live data
-  read this cycle.
+- Customer-facing facts (prices, coverage, status, "fixed") come from the one
+  generated fact source with their conditions, or from live data read this cycle
+  when they expire (`facts-promises-and-cases.md` §1).
 - Keep audiences separate: private context never goes into a group or public
   channel.
 - Every draft passes the content sanity gate (`action-safety.md` §7) before it
