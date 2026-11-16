@@ -53,7 +53,8 @@ first-class record, not a sentence buried in a thread.
   (SKILL.md Phase 3, rank rule). They resurface every cycle until kept or
   released.
 - **A card cannot close while a promise on it is open.** `health` reports
-  `done_with_open_promise` and `promise_overdue` as RED items.
+  `done_with_open_promise` and `promise_overdue`; the owner brief lists both as
+  RED items.
 - "Reply soon" is a promise with a due date. If no date was said, the due date is
   the channel's normal answer time, and it is recorded that way.
 - A kept promise needs the same evidence as any outcome: a page that returns 200
@@ -61,7 +62,7 @@ first-class record, not a sentence buried in a thread.
   is not keeping it.
 
 One audit found ten unkept promises, including partner pages that returned 404
-and a chat left on "reply soon" for seventeen days. None was on a card.
+and a chat left on "reply soon" for seventeen days.
 
 ## 3. Scheduled promises execute themselves (design)
 
