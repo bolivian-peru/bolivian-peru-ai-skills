@@ -140,7 +140,9 @@ blast radius, not by hoping to detect it.
 Run with **no external writes** (dry-run providers or a sandbox tenant) before any
 executor reaches L1, and after any change to authority, control plane or sender.
 Tests 12, 13 and 16 need the control plane, so they run at the Phase 1 exit; the
-rest (1-11, 14, 15, 17-19) run in Phase 0.
+rest (1-11, 14, 15, 17-19) run in Phase 0. Tests 17 and 19 exercise **(design)**
+parts: where the fact allow-list or lane claims are not built yet, record the
+test as not run with that gap on the setup card, and keep reply categories at L1.
 
 | # | Scenario | Pass when the engine |
 |---|---|---|
