@@ -173,7 +173,8 @@ recurrence.
 Reject before `ready`: unrendered placeholders or template tokens, broken
 interpolation (`undefined`, `NaN`, `[object Object]`), zero or negative amounts,
 bodies below a minimum length, banned characters, claims not derivable from live
-data. Rewrite errors that mention credentials to a generic message before logging.
+data, and any quoted fact that fails the send-time allow-list
+(`facts-promises-and-cases.md` §1). Rewrite errors that mention credentials to a generic message before logging.
 
 ## 8. Money integrity
 

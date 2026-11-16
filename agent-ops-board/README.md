@@ -21,8 +21,9 @@ The doctrine and most mechanisms come from production operation of a metered Saa
 with a supplier ecosystem, and generalize failures that actually happened there.
 Parts marked **(design)** in `SKILL.md` (leases and fencing, scope-hash
 acknowledgment, the ladder transition criteria, approver quorum, multi-tenant
-operation, agent cost accounting) are recommended designs not yet proven in
-production; `SKILL.md` lists both sides.
+operation, agent cost accounting, lane claims, the send-time fact allow-list,
+self-executing promise timers, the decision calibration log) are recommended
+designs not yet proven in production; `SKILL.md` lists both sides.
 
 **A skill is not a runtime.** Continuous operation needs an installed scheduler
 with a heartbeat, pause control and observable last-run status. The skill tells
@@ -39,8 +40,36 @@ the agent how to verify one exists and forbids claiming autonomy without it.
 | `references/action-safety.md` | Side-effect state machine, idempotency, single-flight code, reviewed batches, reconciliation, money integrity |
 | `references/evidence-and-metrics.md` | Trust tiers, verification recipes, result-stage evidence, measurement contract, silent no-op audit |
 | `references/change-security-and-tenancy.md` | Production change protocol, incident loop, security playbooks, multi-tenant isolation, forward tests |
-| `references/schemas.md` | Card, thread message, action record, policy entry, audit line, snapshot row, minimal board API contract, capability row, intake stores |
+| `references/facts-promises-and-cases.md` | One generated fact source with conditions, send-time allow-list, promise records, self-executing dated promises, the case pack |
+| `references/lanes-releases-and-judgment.md` | Stream index, lanes for concurrent operators, premise checks, runners and quotas, release discipline, independent review, decision calibration |
+| `references/schemas.md` | Card, thread message, action record, policy entry, audit line, snapshot row, minimal board API contract, capability row, intake stores, promise record, lane claim, fact row, decision log entry |
 | `export-board.mjs` | Board helper: `export`, `health`, `post` (Node 18+, no dependencies) |
+
+## What changed
+
+**Field lessons.** Thirteen lessons from running the engine with several
+operators at once, each written as a phase rule, an anti-pattern and, where
+useful, a schema or forward test:
+
+- **Facts**: agents quote one generated fact sheet, every fact with its
+  conditions, checked by an allow-list at send time on every channel. Edit the
+  generator, never its output. A price without its condition is a wrong price.
+- **Promises**: first-class records with a due date that resurface every cycle;
+  a card cannot close while one is open; dated promises run as timers that act,
+  verify, revert and notify on their own.
+- **Case pack**: one lookup before any reply (money, usage, every channel both
+  ways, open promises, opt-outs, attachments); outcomes come from the system of
+  record, not the conversation.
+- **Lanes and premises**: a stream index read first, lane claims with a time box,
+  a re-read of the newest message before every send, answered-checks over the
+  full history, and a premise check with a stop rule as step one of every brief.
+- **Releases and judgment**: prove the live artifact equals your base, grandfather
+  existing accounts, stop on a red gate, backtest filters, measure under stated
+  conditions, review independently, log decisions with confidence and outcome,
+  treat quotas as control-plane facts, and roll full threads over.
+- **`health`** now reports `promise_overdue`, `promise_no_due` and
+  `done_with_open_promise` from `Promise:` thread lines. Existing findings and
+  exit codes are unchanged.
 
 ## Install
 
@@ -94,6 +123,10 @@ board.
 - `health` reports stale cards, missing owner / next action / due date, overdue
   cards, `done` without a `Proof:` line, duplicate titles within a stream,
   unclassified statuses and streams, uncertain actions and unreadable threads.
+  It also reads `Promise: <id> | <state> | due <date> | ...` thread lines (the
+  newest line per id wins; any state but `kept` or `released` is open) and
+  reports `promise_overdue`, `promise_no_due` and, on a `done` card,
+  `done_with_open_promise`.
   Owner, next action and due come from the card fields (`accountableOwner`,
   `nextAction`, `due`) or from the newest thread message carrying that line.
 - `post` persists the client message ID to `<file>.pending.json` before posting.

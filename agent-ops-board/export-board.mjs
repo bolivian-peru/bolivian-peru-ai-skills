@@ -312,6 +312,18 @@ const ownerOf = (c) =>
 const latestWith = (c, prefix) =>
   [...c.messages].reverse().map(textOf).find((t) => new RegExp(`^\\s*${prefix}:`, 'im').test(t)) ?? '';
 const streamsOf = (c) => (c.labels ?? []).filter((l) => /^(stream|workstream):/.test(String(l)));
+// "Promise: <id> | <state> | due <date> | ..." lines; the newest line per id is its state.
+// Any state other than kept or released counts as open.
+function openPromises(c) {
+  const byId = new Map();
+  for (const m of c.messages)
+    for (const [, line] of textOf(m).matchAll(/^\s*Promise:\s*(.+)$/gim)) {
+      const [id, state = '', ...rest] = line.split('|').map((s) => s.trim());
+      const due = rest.map((s) => /^due\s+(\S+)/i.exec(s)?.[1]).find(Boolean);
+      byId.set(id, { id, state: state.toLowerCase(), due: due ?? byId.get(id)?.due ?? null });
+    }
+  return [...byId.values()].filter((p) => !['kept', 'released'].includes(p.state));
+}
 
 async function runHealth() {
   let board;
@@ -330,9 +342,15 @@ async function runHealth() {
     const touched = Math.max(Date.parse(c.updatedAt) || 0, Date.parse(c.messages[c.messages.length - 1]?.createdAt) || 0);
     if (c.messagesIncomplete) add('thread_unreadable', c, 'thread not fully read; findings for this card may be wrong');
     if (!known(c.status)) add('unclassified_status', c, `status "${c.status}" not in BOARD_STATUSES`);
+    const promises = openPromises(c);
     if (terminal) {
       if (!c.messages.some((m) => /^\s*Proof:/im.test(textOf(m)))) add('done_without_proof', c, 'no thread message has a Proof: line');
+      if (promises.length) add('done_with_open_promise', c, `open: ${promises.map((p) => p.id).join(', ')}`);
       continue;
+    }
+    for (const p of promises) {
+      if (!p.due || Number.isNaN(Date.parse(p.due))) add('promise_no_due', c, `${p.id}: no readable due date`);
+      else if (Date.parse(p.due) < now) add('promise_overdue', c, `${p.id} due ${day(p.due)}`);
     }
     const streams = streamsOf(c);
     if (streams.length !== 1) add('unclassified_stream', c, streams.length ? `conflicting: ${streams.join(', ')}` : 'no stream: label');
