@@ -217,9 +217,9 @@ Message append semantics:
 - commit possible but response unknown → `503 WRITE_UNCERTAIN`; client keeps the
   same ID and body and reconciles;
 - a per-card message cap is enforced in the same atomic write; history is never
-  sliced. A full thread is **rolled over**: a successor card that links back to
-  the old one (and the old one forward) takes the next messages, and open
-  promises are restated on it.
+  sliced. A full thread is **rolled over**: the old card is archived, a successor
+  that links back (and is linked from the old one) takes the next messages, and
+  open promises move to it (not copied, so `health` counts each once).
 
 ## L. Executor capability row
 

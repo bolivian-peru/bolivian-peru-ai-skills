@@ -1,7 +1,8 @@
 # Lanes, releases and judgment
 
-Loaded by Phase 0 (stream index, runners), Phase 3 (lanes), Phase 4 (premise
-check, review), Phase 8 (releases) and the autonomy ladder (calibration). How
+Loaded by Phase 0 (stream index), Phase 1 (runners), Phase 3 (lanes), Phase 4
+(premise check, review), Phase 8 (releases) and the autonomy ladder
+(calibration). How
 several operators share one company without colliding, how changes ship without
 deleting what is live, and how decisions stay honest.
 

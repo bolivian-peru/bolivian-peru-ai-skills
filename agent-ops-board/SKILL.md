@@ -400,8 +400,8 @@ one was mislabelled (`references/evidence-and-metrics.md` §5).
 Post with `node export-board.mjs post <cardId> <file>` or your own client under the
 same rules: a client message ID persisted before posting, read back afterwards,
 never re-sent with a fresh ID. Rewrite the card description only when its standing
-context changes. When a thread is full, roll it over to a successor card that
-links back (and restates open promises), then post there.
+context changes. When a thread is full, archive it, move its open promises to a
+successor card that links back, then post there.
 
 **Exit check:** the message is present in the thread with its client message ID,
 and every `Proof:` item carries a label, a source and an observed-at time.
@@ -568,15 +568,15 @@ Not yet run in production; the single-tenant rules above are the proven base.
 - Launching a task on a premise that had already changed; placeholders in a brief.
 - Two operators answering one thread minutes apart; an answered-check over the
   newest N sent items that missed an earlier reply.
-- Overlaying a release on source that lacked a live in-place patch.
-- A rule change that silently cost existing accounts.
+- Nearly overlaying a release on source that lacked a live in-place patch.
+- A rule change that would have silently cost existing accounts.
 - An executor waiting out a red gate on its own authority.
 - A dated customer promise that depended on a session being awake that day.
 - A stage that died on a quota while the next stage ran on missing input.
-- A gate threshold set from a measurement taken under different conditions.
+- A gate that would have mixed readings taken under different conditions.
 - A design that passed its author and failed independent review.
-- No stream index, so a session redid a stream another had already moved.
-- Routine calls queued for the owner; calls logged with no confidence or outcome.
+- Parallel streams with no index of state, context and next step, read first.
+- Routine calls queued for the owner; calls with no logged confidence or outcome.
 - Posting into a full thread, or a successor card with no link back.
 
 ## Multi-agent orchestration
